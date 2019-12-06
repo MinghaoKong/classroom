@@ -1,4 +1,3 @@
-import 'dart:io';
 
 import 'package:classroom/classroom.dart';
 import 'package:flutter/material.dart';
@@ -136,6 +135,9 @@ class Homepage extends StatelessWidget {
                             sno = _snoTextEditingController.text;
                             password = _passwordTextEditingController.text;
                             if (sno == "201900301053" && password == "kmh") {
+                              isUser = true;
+                            }
+                            if (isUser) {
                               Navigator.pushAndRemoveUntil(context,
                                   MaterialPageRoute(builder: (context) {
                                     return Classroom();
