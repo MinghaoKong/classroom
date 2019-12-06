@@ -110,16 +110,15 @@ void _getTime(BuildContext buildContext,DateTime time) async{
 OverlayEntry _floatList(BuildContext context,List<String> list,String input){//接受上下文，列表数据，以及获取的数据为参数
   return OverlayEntry(builder: (context) {
     return Positioned(
-      width: 200,
+      width: 20,
         child: CompositedTransformFollower(
-          offset: Offset(0.0,50),
           link: LayerLink(),
           child: Material(
             child: Container(
               child: Column(
                 children: <Widget>[
                   ListTile(
-                    title: Text("校区"),
+
                   )
                 ],
               ),

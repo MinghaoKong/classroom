@@ -55,12 +55,12 @@ class Homepage extends StatelessWidget {
             title: Text("山东大学统一身份认证"),
           ),
           body: Container(
-            decoration: BoxDecoration(
-              image: DecorationImage(
-//                  image: AssetImage('images/bg000.jpg'),//这一行代码可能会导致人员的非自然性死亡，建议不要取消注释
-                fit: BoxFit.cover
-              ),
-            ),
+//            decoration: BoxDecoration(//这些代码可能会导致程序编写者的非自然性死亡，建议不要取消注释
+//              image: DecorationImage(
+//                  image: AssetImage('images/bg000.jpg'),
+//                fit: BoxFit.cover
+//              ),
+//            ),
               child: Container(
                 margin: EdgeInsets.fromLTRB(24,30,24,24),
                 child: Column(
