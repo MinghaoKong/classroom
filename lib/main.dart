@@ -3,154 +3,182 @@ import 'dart:io';
 import 'package:classroom/classroom.dart';
 import 'package:flutter/material.dart';
 
-void main () {
+void main() {
   runApp(new MaterialApp(
     home: new Prepare(),
   ));
-  sleep(Duration(milliseconds: 100));
+//  sleep(Duration(milliseconds: 1000));
   runApp(new MaterialApp(
     title: "自习室",
     home: new Homepage(),
   ));
-
 }
 
 class Prepare extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Align(
-
+    return Container(
+      color: Colors.white,
+      height: 400,
       child: Column(
         children: <Widget>[
-          Container(
-            decoration:BoxDecoration(
-                image: DecorationImage(
-                    image: AssetImage('images/sdu.jpg')
-                )
-            ),
-          )
+          Expanded(
+              child: Container(
+                  decoration: BoxDecoration(
+                      image: DecorationImage(
+                          image: AssetImage('images/sdu.jpg')))))
         ],
       ),
     );
   }
 }
 
-class Homepage extends StatelessWidget { //绘制主界面准备界面
+class Homepage extends StatelessWidget {
+  //绘制主界面准备界面
   String sno;
   String password;
   TextEditingController _snoTextEditingController = TextEditingController();
-  TextEditingController _passwordTextEditingController = TextEditingController();
+  TextEditingController _passwordTextEditingController =
+      TextEditingController();
   var _scaffoldUpdateKey = new GlobalKey<ScaffoldState>();
   @override
-  Widget build(BuildContext context)
-  {
+  Widget build(BuildContext context) {
     return new MaterialApp(
       title: "自习室查询",
       routes: {
-        "Classroom" : (BuildContext context)  => Classroom(),
+        "/classroom": (BuildContext context) => Classroom(),
       },
       home: Scaffold(
-        key: _scaffoldUpdateKey,
+          key: _scaffoldUpdateKey,
           appBar: AppBar(
             centerTitle: true,
             title: Text("山东大学统一身份认证"),
           ),
-          body:
-          Container(
-            margin: EdgeInsets.all(24.0),
-            child: Column(
-              children: <Widget>[
-                Row(
+          body: Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+//                  image: AssetImage('images/bg000.jpg'),//这一行代码可能会导致人员的非自然性死亡，建议不要取消注释
+                fit: BoxFit.cover
+              ),
+            ),
+              child: Container(
+                margin: EdgeInsets.fromLTRB(24,30,24,24),
+                child: Column(
                   children: <Widget>[
+                    Row(
+                      children: <Widget>[
 //                    Text(
 //                      "学号",
 //                      style: TextStyle(
 //                        fontSize: 24,
 //                      ),
 //                    ),
-                    Expanded(
-                        child: TextField( //输入学号
-                          controller: _snoTextEditingController,
-                          textInputAction: TextInputAction.done,
-                          decoration: InputDecoration(
-                            labelText:"学号",
-                            labelStyle: TextStyle(
-                              fontSize: 24,
+                        Expanded(
+                          child: TextField(
+                            //输入学号
+                            controller: _snoTextEditingController,
+                            textInputAction: TextInputAction.done,
+                            decoration: InputDecoration(
+                              labelText: "学号",
+                              labelStyle: TextStyle(
+                                color: Colors.black,
+                                fontSize: 20,
+                              ),
+                              hintText: "请输入学号",
+                              hintStyle: TextStyle(
+                                fontSize: 22,
+                              ),
                             ),
-                            hintText:"请输入学号",
-                            hintStyle: TextStyle(
-                              fontSize: 24,
-                            ),
+                            keyboardType: TextInputType.number,
                           ),
-                          keyboardType: TextInputType.number,
-                        ),
-                    )
-                  ],
-                ),
-
-                Row(
-                  children: <Widget>[
-
+                        )
+                      ],
+                    ),
+                    Row(
+                      children: <Widget>[
 //                    Text(
 //                      "密码",
 //                      style: TextStyle(
 //                        fontSize: 24,
 //                      ),
 //                    ),
-                    Expanded(
-                        child:TextField( //输入密码
-                          controller: _passwordTextEditingController,
-                          obscureText: true,
-                          textInputAction: TextInputAction.done,
-                          decoration: InputDecoration(
-                            labelText:"密码",
-                            labelStyle: TextStyle(
-                              fontSize: 24,
-                            ),
-                            hintText:"请输入密码",
-                            hintStyle: TextStyle(
-                              fontSize: 24,
-                            ),
-                          ),
-                        )
+                        Expanded(
+                            child: TextField(
+                              //输入密码
+                              controller: _passwordTextEditingController,
+                              obscureText: true,
+                              textInputAction: TextInputAction.done,
+                              decoration: InputDecoration(
+                                labelText: "密码",
+                                labelStyle: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 20,
+                                ),
+                                hintText: "请输入密码",
+                                hintStyle: TextStyle(
+                                  fontSize: 22,
+                                ),
+                              ),
+                            )),
+                      ],
                     ),
+                    Container(
+                      margin: EdgeInsets.fromLTRB(0, 15, 0, 0),
+                      child: MaterialButton(
+                        //登陆按钮
+                        textTheme: ButtonTextTheme.normal,
+                        onPressed: () {
+                          //从服务器获取比对结果，判断是否登陆成功
+                          bool isUser = false;
+//                        print(_snoTextEditingController.text);
+                          if (_passwordTextEditingController.text.length != 0 &&
+                              _snoTextEditingController.text.length != 0) {
+                            sno = _snoTextEditingController.text;
+                            password = _passwordTextEditingController.text;
+                            if (sno == "201900301053" && password == "kmh") {
+                              Navigator.pushAndRemoveUntil(context,
+                                  MaterialPageRoute(builder: (context) {
+                                    return Classroom();
+                                  }),(route) => route == null); //跳转至查询界面
+                            } else {
+                              SnackBar snakeBar = SnackBar(
+                                content: Text("用户名或密码错误"),
+                                backgroundColor: Colors.blue,
+                                duration: Duration(milliseconds: 1600),
+                              );
+                              _scaffoldUpdateKey.currentState
+                                  .showSnackBar(snakeBar);
+                            }
+                          } else {
+                            SnackBar snakeBar = SnackBar(
+                              content: Text("用户名或密码不能为空"),
+                              backgroundColor: Colors.blue,
+                              duration: Duration(milliseconds: 1600),
+                            );
+                            _scaffoldUpdateKey.currentState.showSnackBar(snakeBar);
+                          }
+                        },
+                        child: Text(
+                          "登录",
+                          style: TextStyle(fontSize: 20),
+                        ),
+                        minWidth: double.infinity,
+                        height: 50,
+                        color: Colors.lightBlue,
+                      ),
+                    ),
+                    Expanded(
+                        child: Container(
+                          decoration: BoxDecoration(
+                              image: DecorationImage(
+                                  image: AssetImage('images/background.jpg'))),
+                        ))
                   ],
                 ),
-                Container(
-                 margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
-                    child:MaterialButton( //登陆按钮
-                      textTheme: ButtonTextTheme.normal,
-                      onPressed: () { //从服务器获取比对结果，判断是否登陆成功
-                        bool isUser = false;
-//                        print(_snoTextEditingController.text);
-                        if (_passwordTextEditingController.text.length != 0 && _snoTextEditingController.text.length != 0) {
-                          sno=_snoTextEditingController.text;
-                          password=_passwordTextEditingController.text;
-                          if (sno == "201900301053" && password == "kmh") {
-                            Navigator.of(context).pushNamed("Classroom");//跳转至查询界面
-                          }
-                        } else {
-                         SnackBar snakeBar = SnackBar(content: Text("用户名或密码不能为空"),
-                          backgroundColor: Colors.blue,
-                           duration: Duration(milliseconds: 1600),
-                          );
-                          _scaffoldUpdateKey.currentState.showSnackBar(snakeBar);
-                        }
-                      },
-                      child: Text(
-                        "登录",
-                        style: TextStyle(
-                            fontSize: 24
-                        ),),
-                      minWidth: double.infinity,
-                      height: 60,
-                      color: Colors.lightBlue,
-                    )
-                )
-              ],
-            ),
+
+              )
           )
       ),
     );
-    }
+  }
 }
