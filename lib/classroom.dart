@@ -30,7 +30,7 @@ class Wait {
 } //封装bool类型
 
 class ClassroomState extends State<Classroom> {
-  List<ClassroomDate> classroomDates;
+  List<ClassroomData> classroomDates;
   String campus; //校区
   String area; //位置
   DateTime time; //时间
