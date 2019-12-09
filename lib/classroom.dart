@@ -1,7 +1,6 @@
 import 'package:classroom/campusChoice.dart';
 import 'package:classroom/internet.dart';
 import 'package:classroom/teachAreaChoice.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

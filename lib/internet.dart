@@ -1,6 +1,4 @@
 import 'dart:convert';
-
-import 'package:classroom/classroom.dart';
 import 'package:dio/dio.dart';
 Future<List<ClassroomDate>> getClassroomData(String place,DateTime time,bool wait) async {
   String classroom = "http://sduonline.cn/isdu/studyroom/api/?";
