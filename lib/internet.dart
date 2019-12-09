@@ -1,6 +1,7 @@
 import 'dart:convert';
+import 'package:classroom/classroom.dart';
 import 'package:dio/dio.dart';
-Future<List<ClassroomDate>> getClassroomData(String place,DateTime time,bool wait) async {
+Future<List<ClassroomDate>> getClassroomData(String place,DateTime time,Wait wait) async {
   String classroom = "http://sduonline.cn/isdu/studyroom/api/?";
   String classroomInterface = classroom +  "building=" +place + "&date=" + time.year.toString() + "-" + time.month.toString() + "-" + time.day.toString(); //进行网络接口响应
   Dio dio = Dio();
@@ -8,7 +9,7 @@ Future<List<ClassroomDate>> getClassroomData(String place,DateTime time,bool wai
   print(response.toString());
   List classroomJson = JsonDecoder().convert(response.toString());
   List classroomsDates = classroomJson.map((e) => ClassroomDate.fromJson(e)).toList();//格式化json数据到类classroomDate
-  wait = false;
+  wait.wait = false;
   return classroomsDates;
 }
 

@@ -25,21 +25,24 @@ class Classroom extends StatefulWidget {
   }
 }
 
+class Wait {
+  bool wait;
+} //封装bool类型
+
 class ClassroomState extends State<Classroom> {
   List<ClassroomDate> classroomDates;
   String campus; //校区
   String area; //位置
   DateTime time; //时间
   bool wait; //是否显示等待图标
-
+  Wait w = Wait();
   @override
   void initState() {
     super.initState();
-
     campus = campusValueBack;
     area = teachAreaValue;
     time = DateTime.now();
-    wait = true;
+    w.wait = false;
   }
 
   @override
@@ -65,7 +68,7 @@ class ClassroomState extends State<Classroom> {
                   child: Stack(
                     children: <Widget>[
                       Offstage( //未获取网络数据前显示
-                        offstage: !wait,
+                        offstage: !w.wait,
                         child: Center(
                           child: CircularProgressIndicator(
                             backgroundColor: Colors.white,
@@ -73,9 +76,9 @@ class ClassroomState extends State<Classroom> {
                         ),
                       ),
                       Offstage( //获取网络数据后显示自习室表格
-                        offstage: wait,
+                        offstage: w.wait,
                         child: Container(
-                          child: Table(
+                          child: Table( //在table加载完成时设置wait为false
                             border: TableBorder.all(
                               color: Colors.blue,
                               width: 3,
@@ -208,8 +211,10 @@ class ClassroomState extends State<Classroom> {
                 ).then((onValue) async {
                   if (onValue != null) {
                     teachAreaValue = onValue;
-                    wait = true;
-                    classroomDates = await getClassroomData(campus + teachAreaValue, time,wait);
+                    w.wait = true;
+                    setState(() {
+                    });
+                    classroomDates = await getClassroomData(campus + teachAreaValue, time,w);
                   }
                   setState(() {
                   });

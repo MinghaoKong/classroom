@@ -14,10 +14,6 @@ void main() {
       home: new Homepage(),
     ));
   });
-//  runApp(new MaterialApp(
-//    title: "自习室",
-//    home: new Homepage(),
-//  ));
 }
 
 class Prepare extends StatelessWidget {  //绘制主界面准备界面
