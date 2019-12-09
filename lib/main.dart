@@ -1,23 +1,29 @@
 
-import 'dart:io';
-
 import 'package:classroom/classroom.dart';
 import 'package:flutter/material.dart';
 
+BuildContext buildContext;
+
 void main() {
-//  runApp(new MaterialApp(
-//    home: new Prepare(),
-//  ));
-//  sleep(Duration(milliseconds: 1000));
   runApp(new MaterialApp(
-    title: "自习室",
-    home: new Homepage(),
+    home: new Prepare(),
   ));
+  Future.delayed(Duration(seconds: 2),() {
+    runApp(new MaterialApp(
+      title: "自习室",
+      home: new Homepage(),
+    ));
+  });
+//  runApp(new MaterialApp(
+//    title: "自习室",
+//    home: new Homepage(),
+//  ));
 }
 
 class Prepare extends StatelessWidget {  //绘制主界面准备界面
   @override
   Widget build(BuildContext context) {
+    buildContext = context;
     return Container(
       color: Colors.white,
       height: 400,
@@ -29,22 +35,21 @@ class Prepare extends StatelessWidget {  //绘制主界面准备界面
                       image: DecorationImage(
                           image: AssetImage('images/sdu.jpg')
                       )
-                  )
+                  ),
               )
-          )
+          ),
         ],
       ),
     );
   }
 }
 
-class Homepage extends StatelessWidget {
 
+class Homepage extends StatelessWidget {
   String sno;
   String password;
   TextEditingController _snoTextEditingController = TextEditingController();
-  TextEditingController _passwordTextEditingController =
-      TextEditingController();
+  TextEditingController _passwordTextEditingController = TextEditingController();
   var _scaffoldUpdateKey = new GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
