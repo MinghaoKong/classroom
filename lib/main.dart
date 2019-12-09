@@ -1,11 +1,13 @@
 
+import 'dart:io';
+
 import 'package:classroom/classroom.dart';
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(new MaterialApp(
-    home: new Prepare(),
-  ));
+//  runApp(new MaterialApp(
+//    home: new Prepare(),
+//  ));
 //  sleep(Duration(milliseconds: 1000));
   runApp(new MaterialApp(
     title: "自习室",
@@ -13,7 +15,7 @@ void main() {
   ));
 }
 
-class Prepare extends StatelessWidget {
+class Prepare extends StatelessWidget {  //绘制主界面准备界面
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -25,7 +27,11 @@ class Prepare extends StatelessWidget {
               child: Container(
                   decoration: BoxDecoration(
                       image: DecorationImage(
-                          image: AssetImage('images/sdu.jpg')))))
+                          image: AssetImage('images/sdu.jpg')
+                      )
+                  )
+              )
+          )
         ],
       ),
     );
@@ -33,7 +39,7 @@ class Prepare extends StatelessWidget {
 }
 
 class Homepage extends StatelessWidget {
-  //绘制主界面准备界面
+
   String sno;
   String password;
   TextEditingController _snoTextEditingController = TextEditingController();
