@@ -1,5 +1,7 @@
 import 'package:classroom/campusChoice.dart';
+import 'package:classroom/internet.dart';
 import 'package:classroom/teachAreaChoice.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -15,6 +17,7 @@ void main (){
 String campusValue = "中心";
 String campusValueBack = campusValue;
 String teachAreaValue = "";
+String teachAreaValueBack = teachAreaValue;
 
 class Classroom extends StatefulWidget {
   @override
@@ -24,6 +27,7 @@ class Classroom extends StatefulWidget {
 }
 
 class ClassroomState extends State<Classroom> {
+  List<ClassroomDate> classroomDates;
   String campus; //校区
   String area; //位置
   DateTime time; //时间
@@ -37,7 +41,6 @@ class ClassroomState extends State<Classroom> {
     area = teachAreaValue;
     time = DateTime.now();
     wait = true;
-
   }
 
   @override
@@ -54,7 +57,7 @@ class ClassroomState extends State<Classroom> {
             children: <Widget>[
               Container(
                 margin: EdgeInsets.fromLTRB(0, 15, 0, 5),
-                child: _topItem(campus, area, time, context),//显示头部选项选择校区时间
+                child: _topItem(campus, area, time, context), //显示头部选项选择校区时间
               ),
               Divider(
                 height: 3,
@@ -73,22 +76,29 @@ class ClassroomState extends State<Classroom> {
                       Offstage( //获取网络数据后显示自习室表格
                         offstage: wait,
                         child: Container(
-                          child: Text("hello"),
+                          child: Table(
+                            border: TableBorder.all(
+                              color: Colors.blue,
+                              width: 3,
+                            ),
+                          ),
                         ),
                       )
                     ],
                   )
               ),
-                  ],
-                ),
-              ),
+            ],
           ),
-        );
+        ),
+      ),
+    );
   }
 
-  Row _topItem(String campus,String area,DateTime time,BuildContext buildContext) { //选择校区，教学区，时间
+  Row _topItem(String campus, String area, DateTime time,
+      BuildContext buildContext) {
+    //选择校区，教学区，时间
 
-    return  Row(
+    return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: <Widget>[
         Container(
@@ -107,19 +117,18 @@ class ClassroomState extends State<Classroom> {
               ),
               onPressed: () {
 //                Overlay.of(buildContext).insert(_floatList(buildContext, null, campus));
-              showDialog(
-                  context: buildContext,
-                  builder: (context) {
-                    return StatefulBuilder(builder: (context,states) {
-                      return CampusChoiceDialog();
-                    });
-                  }
-              ).then((onValue){
-                setState(() {
-                  campusValue = onValue;
+                showDialog(
+                    context: buildContext,
+                    builder: (context) {
+                      return StatefulBuilder(builder: (context, states) {
+                        return CampusChoiceDialog();
+                      });
+                    }
+                ).then((onValue) {
+                  setState(() {
+                    campusValue = onValue;
+                  });
                 });
-              });
-
               }),
         ),
         Container(
@@ -131,7 +140,7 @@ class ClassroomState extends State<Classroom> {
               child: Text(
                 "教学区",
                 style: TextStyle(
-                    fontSize: 18,color: Colors.white
+                    fontSize: 18, color: Colors.white
                 ),
               ),
               onPressed: () {
@@ -140,11 +149,12 @@ class ClassroomState extends State<Classroom> {
                 showDialog(
                     context: buildContext,
                     builder: (context) {
-                      return StatefulBuilder(builder: (context,states) {
+                      return StatefulBuilder(builder: (context, states) {
                         if (campusValue != null) {
                           switch (campusValue) {
                             case "中心":
-                              campusValueBack = campusValue;//保存成功选择的数据避免下一次错误的选择
+                              campusValueBack =
+                                  campusValue; //保存成功选择的数据避免下一次错误的选择
                               campus = campusValue; //将校区地址赋给地址
                               return TeachAreaZhongXinChoice();
                             case "洪楼":
@@ -170,7 +180,7 @@ class ClassroomState extends State<Classroom> {
                             default :
                               return TeachAreaZhongXinChoice();
                           }
-                        } else{
+                        } else {
                           switch (campusValueBack) {
                             case "中心":
                               campus = campusValueBack;
@@ -196,9 +206,13 @@ class ClassroomState extends State<Classroom> {
                         }
                       });
                     }
-                ).then((onValue) {
-                  setState(() {
+                ).then((onValue) async {
+                  if (onValue != null) {
                     teachAreaValue = onValue;
+                    wait = true;
+                    classroomDates = await getClassroomData(campus + teachAreaValue, time,wait);
+                  }
+                  setState(() {
                   });
                 });
               }),
@@ -212,7 +226,7 @@ class ClassroomState extends State<Classroom> {
               child: Text(
                 "日期",
                 style: TextStyle(
-                    fontSize: 18,color: Colors.white
+                    fontSize: 18, color: Colors.white
                 ),
               ),
               onPressed: () {
@@ -223,13 +237,15 @@ class ClassroomState extends State<Classroom> {
     );
   }
 
-  void _getTime(BuildContext buildContext) async{
-    DateTime dateTime = await showDatePicker(context: buildContext, initialDate: time, firstDate: new DateTime(2019,9), lastDate: DateTime(2021,2,1));
+  void _getTime(BuildContext buildContext) async {
+    DateTime dateTime = await showDatePicker(context: buildContext,
+        initialDate: time,
+        firstDate: new DateTime(2019, 9),
+        lastDate: DateTime(2021, 2, 1));
     if (dateTime != null) {
       setState(() {
         time = dateTime;
       });
     }
   }
-
 }
