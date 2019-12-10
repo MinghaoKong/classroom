@@ -54,11 +54,17 @@ class ClassroomState extends State<Classroom> {
           title: Text("自习室"),
         ),
         body: Container(
-          color: Colors.white,
+//          color: Colors.white
+          decoration: BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage("images/bgdoor.png"),
+              fit: BoxFit.cover,
+            )
+          ),
           child: Column(
             children: <Widget>[
               Container(
-                color: Colors.yellow,
+//                color: Colors.white70,
                 margin: EdgeInsets.fromLTRB(0, 15, 0, 5),
                 child: _topItem(campus, area, time, context), //显示头部选项选择校区时间
               ),
@@ -80,7 +86,9 @@ class ClassroomState extends State<Classroom> {
                         offstage: w.wait,
                         child: Container(
                           child: ListView(
-                            children: <Widget>[classroomDates == null ? Text("欢迎使用",style: TextStyle(fontSize: 30,color: Colors.blue),) : getTable(time),],
+                            children: <Widget>[classroomDates == null ?
+                            Center(child: Text("欢迎使用",style: TextStyle(fontSize: 30,color: Colors.blue),) ,)
+                                : getTable(time),],
                           ),
 //                          child: classroomDates == null ? Text("Loading please wait...") : getDataTable(time), //废弃DataTable改用Table
 //                          child: classroomDates == null ? Text("欢迎使用",style: TextStyle(fontSize: 30,color: Colors.blue),) : getTable(time), //改用ListView
@@ -244,8 +252,8 @@ class ClassroomState extends State<Classroom> {
   void _getTime(BuildContext buildContext) async {
     DateTime dateTime = await showDatePicker(context: buildContext,
         initialDate: time,
-        firstDate: new DateTime(2019, 9),
-        lastDate: DateTime(2021, 2, 1));
+        firstDate: new DateTime(DateTime.now().year, DateTime.now().month),
+        lastDate: DateTime(DateTime.now().year + 1,2));
     if (dateTime != null) {
       setState(() {
         time = dateTime;
@@ -254,33 +262,33 @@ class ClassroomState extends State<Classroom> {
   }
 }
 
-DataTable getDataTable(DateTime t) {
-  return DataTable(
-      columns: [ //输出列表的头部
-        DataColumn(label: Text(t.month.toString() + "-" + t.day.toString())),
-        DataColumn(label: Text("上午1")),
-        DataColumn(label: Text("上午2")),
-        DataColumn(label: Text("下午1")),
-        DataColumn(label: Text("下午2")),
-        DataColumn(label: Text("晚上1")),
-        DataColumn(label: Text("晚上2")),],
-    rows: classroomDates.map((f) {
-      return DataRow(//创建列表的行列
-          cells: getCells(f),
-      );
-    }).toList(),
-  );
-}
+//DataTable getDataTable(DateTime t) { //构建表格
+//  return DataTable(
+//      columns: [ //输出列表的头部
+//        DataColumn(label: Text(t.month.toString() + "-" + t.day.toString())),
+//        DataColumn(label: Text("上午1")),
+//        DataColumn(label: Text("上午2")),
+//        DataColumn(label: Text("下午1")),
+//        DataColumn(label: Text("下午2")),
+//        DataColumn(label: Text("晚上1")),
+//        DataColumn(label: Text("晚上2")),],
+//    rows: classroomDates.map((f) {
+//      return DataRow(//创建列表的行列
+//          cells: getCells(f),
+//      );
+//    }).toList(),
+//  );
+//}
+//
+//List<DataCell> getCells (ClassroomData f) { //获取每一个表格的数据
+//  List<DataCell> cells = List();
+//  cells.add(DataCell(Text(f.classroom)));
+//  f.status.forEach((e) => cells.add(DataCell(Text(e))));
+//  print(f.status.length);
+//  return cells;
+//} //已经弃用
 
-List<DataCell> getCells (ClassroomData f) { //获取每一个表格的数据
-  List<DataCell> cells = List();
-  cells.add(DataCell(Text(f.classroom)));
-  f.status.forEach((e) => cells.add(DataCell(Text(e))));
-  print(f.status.length);
-  return cells;
-}
-
-Table getTable(DateTime t) {
+Table getTable(DateTime t) { //构建表格
   return Table(
     children: getTableData(t),
     border: TableBorder.all(
@@ -289,7 +297,9 @@ Table getTable(DateTime t) {
       style: BorderStyle.solid,
     ),
     defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-
+    columnWidths: <int, TableColumnWidth>{
+      0: FixedColumnWidth(64),
+    },
   );
 }
 
@@ -326,7 +336,7 @@ Center  tableText(String str) { //适用于表格的Text//忘记改成类了不�
         str,
         style: TextStyle(
             fontSize: 15,
-            color: Colors.purple
+            color: Colors.black
         ),
       )
   );

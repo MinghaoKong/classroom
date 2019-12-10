@@ -63,12 +63,12 @@ class Homepage extends StatelessWidget {
             title: Text("山东大学统一身份认证"),
           ),
           body: Container(
-//            decoration: BoxDecoration(//这些代码可能会导致程序编写者的非自然性死亡，建议不要取消注释
-//              image: DecorationImage(
-//                  image: AssetImage('images/bg000.jpg'),
-//                fit: BoxFit.cover
-//              ),
-//            ),
+            decoration: BoxDecoration(//这些代码可能会导致程序编写者的非自然性死亡，建议不要取消注释
+              image: DecorationImage(
+                  image: AssetImage('images/bgleave.png'),
+                fit: BoxFit.cover
+              ),
+            ),
               child: Container(
                 margin: EdgeInsets.fromLTRB(24,30,24,24),
                 child: Column(
@@ -89,12 +89,13 @@ class Homepage extends StatelessWidget {
                             decoration: InputDecoration(
                               labelText: "学号",
                               labelStyle: TextStyle(
-                                color: Colors.black,
+                                color: Colors.green,
                                 fontSize: 20,
                               ),
                               hintText: "请输入学号",
                               hintStyle: TextStyle(
                                 fontSize: 22,
+                                color: Colors.green,
                               ),
                             ),
                             keyboardType: TextInputType.number,
@@ -119,12 +120,13 @@ class Homepage extends StatelessWidget {
                               decoration: InputDecoration(
                                 labelText: "密码",
                                 labelStyle: TextStyle(
-                                  color: Colors.black,
+                                  color: Colors.green,
                                   fontSize: 20,
                                 ),
                                 hintText: "请输入密码",
                                 hintStyle: TextStyle(
                                   fontSize: 22,
+                                  color: Colors.green,
                                 ),
                               ),
                             )),
