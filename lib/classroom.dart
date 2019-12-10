@@ -244,19 +244,21 @@ class ClassroomState extends State<Classroom> {
                 ),
               ),
               onPressed: () {
-                _getTime(buildContext);
+                _getTime(buildContext,w);
               }),
         )
       ],
     );
   }
 
-  void _getTime(BuildContext buildContext) async {
+  void _getTime(BuildContext buildContext,Wait wait) async {
+    w.wait = true;
     DateTime dateTime = await showDatePicker(context: buildContext,
         initialDate: time,
         firstDate: new DateTime(DateTime.now().year, DateTime.now().month),
         lastDate: DateTime(DateTime.now().year + 1,2));
     if (dateTime != null) {
+      classroomDates = await getClassroomData(campus + teachAreaValue, dateTime,w);
       setState(() {
         time = dateTime;
       });
