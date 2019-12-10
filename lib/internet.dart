@@ -15,7 +15,7 @@ Future<List<ClassroomData>> getClassroomData(String place,DateTime time,Wait wai
 
 class ClassroomData {
   String classroom;
-  List status = List(); //是否空闲按照顺序，list中存放早中晚
+  List<String> status = List(); //是否空闲按照顺序，list中存放早中晚
 
   ClassroomData.fromJson(Map<String, dynamic> json) {
     classroom = json["classroom"];

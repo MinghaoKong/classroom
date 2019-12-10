@@ -11,6 +11,7 @@ void main() {
   Future.delayed(Duration(seconds: 2),() {
     runApp(new MaterialApp(
       title: "自习室",
+//      home: new Classroom(), //仅作调试之后改回
       home: new Homepage(),
     ));
   });
@@ -41,6 +42,7 @@ class Prepare extends StatelessWidget {  //绘制主界面准备界面
 }
 
 
+// ignore: must_be_immutable
 class Homepage extends StatelessWidget {
   String sno;
   String password;
