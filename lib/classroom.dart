@@ -54,50 +54,52 @@ class ClassroomState extends State<Classroom> {
           title: Text("自习室"),
         ),
         body: Container(
-//          color: Colors.white
           decoration: BoxDecoration(
             image: DecorationImage(
-                image: AssetImage("images/bgdoor.png"),
+                image: AssetImage("images/bgleave.png"),
               fit: BoxFit.cover,
             )
           ),
-          child: Column(
-            children: <Widget>[
-              Container(
+          child: Container (
+            color: Colors.white70,
+            child: Column(
+              children: <Widget>[
+                Container(
 //                color: Colors.white70,
-                margin: EdgeInsets.fromLTRB(0, 15, 0, 5),
-                child: _topItem(campus, area, time, context), //显示头部选项选择校区时间
-              ),
-              Divider(
-                height: 3,
-              ),
-              Expanded(
-                  child: Stack(
-                    children: <Widget>[
-                      Offstage( //未获取网络数据前显示
-                        offstage: !w.wait,
-                        child: Center(
-                          child: CircularProgressIndicator(
-                            backgroundColor: Colors.white,
+                  margin: EdgeInsets.fromLTRB(0, 15, 0, 5),
+                  child: _topItem(campus, area, time, context), //显示头部选项选择校区时间
+                ),
+                Divider(
+                  height: 3,
+                ),
+                Expanded(
+                    child: Stack(
+                      children: <Widget>[
+                        Offstage( //未获取网络数据前显示
+                          offstage: !w.wait,
+                          child: Center(
+                            child: CircularProgressIndicator(
+                              backgroundColor: Colors.white,
+                            ),
                           ),
                         ),
-                      ),
-                      Offstage( //获取网络数据后显示自习室表格
-                        offstage: w.wait,
-                        child: Container(
-                          child: ListView(
-                            children: <Widget>[classroomDates == null ?
-                            Center(child: Text("欢迎使用",style: TextStyle(fontSize: 30,color: Colors.blue),) ,)
-                                : getTable(time),],
-                          ),
+                        Offstage( //获取网络数据后显示自习室表格
+                          offstage: w.wait,
+                          child: Container(
+                            child: ListView(
+                              children: <Widget>[classroomDates == null ?
+                              Center(child: Text("欢迎使用",style: TextStyle(fontSize: 30,color: Colors.blue),) ,)
+                                  : getTable(time),],
+                            ),
 //                          child: classroomDates == null ? Text("Loading please wait...") : getDataTable(time), //废弃DataTable改用Table
 //                          child: classroomDates == null ? Text("欢迎使用",style: TextStyle(fontSize: 30,color: Colors.blue),) : getTable(time), //改用ListView
-                        ),
-                      )
-                    ],
-                  )
-              ),
-            ],
+                          ),
+                        )
+                      ],
+                    )
+                ),
+              ],
+            ),
           ),
         ),
       ),
