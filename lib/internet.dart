@@ -6,6 +6,7 @@ Future<List<ClassroomData>> getClassroomData(String place,DateTime time,Wait wai
   String classroomInterface = classroom +  "building=" +place + "&date=" + time.year.toString() + "-" + time.month.toString() + "-" + time.day.toString(); //进行网络接口响应
   Dio dio = Dio();
   Response response = await dio.get(classroomInterface);
+//  print(response.toString());
   List classroomJson = JsonDecoder().convert(response.toString());
   List<ClassroomData> classroomsData = List();
   classroomsData = classroomJson.map((e) => ClassroomData.fromJson(e)).toList();//格式化json数据到类classroomDate
@@ -25,7 +26,7 @@ class ClassroomData {
     status.add(json["status"]["4"]);
     status.add(json["status"]["5"]);
     status.add(json["status"]["6"]);//格式化json数据
-    print(classroom + status.toString());
+//    print(classroom + status.toString());
   }
 }
 

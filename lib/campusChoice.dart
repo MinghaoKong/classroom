@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 String campusValue = "中心";
 
-class CampusChoiceDialog extends StatefulWidget { //单选类
+class CampusChoiceDialog extends StatefulWidget { //单选类校区数据
   @override
   State<StatefulWidget> createState() {
     return CampusChoiceDialogState();

@@ -16,8 +16,11 @@ void main (){
 String campusValue = "中心";
 String campusValueBack = campusValue;
 String teachAreaValue = "";
-String teachAreaValueBack = teachAreaValue;
 List<ClassroomData> classroomDates;
+class Wait {
+  bool wait;
+} //封装bool类型
+
 
 class Classroom extends StatefulWidget {
   @override
@@ -26,16 +29,12 @@ class Classroom extends StatefulWidget {
   }
 }
 
-class Wait {
-  bool wait;
-} //封装bool类型
 
 class ClassroomState extends State<Classroom> {
   String campus; //校区
   String area; //位置
   DateTime time; //时间
-  bool wait; //是否显示等待图标
-  Wait w = Wait();
+  Wait w = Wait();//是否显示等待图标
   @override
   void initState() {
     super.initState();
@@ -128,12 +127,11 @@ class ClassroomState extends State<Classroom> {
                 ),
               ),
               onPressed: () {
-//                Overlay.of(buildContext).insert(_floatList(buildContext, null, campus));
                 showDialog(
                     context: buildContext,
                     builder: (context) {
                       return StatefulBuilder(builder: (context, states) {
-                        return CampusChoiceDialog();
+                        return CampusChoiceDialog(); //构建校区单选按钮
                       });
                     }
                 ).then((onValue) {
@@ -156,12 +154,12 @@ class ClassroomState extends State<Classroom> {
                 ),
               ),
               onPressed: () {
-                print(campusValue);
-                print(campusValueBack);
+//                print(campusValue);
+//                print(campusValueBack);
                 showDialog(
                     context: buildContext,
                     builder: (context) {
-                      return StatefulBuilder(builder: (context, states) {
+                      return StatefulBuilder(builder: (context, states) { //构建教学区单选按钮
                         if (campusValue != null) {
                           switch (campusValue) {
                             case "中心":
@@ -218,15 +216,15 @@ class ClassroomState extends State<Classroom> {
                         }
                       });
                     }
-                ).then((onValue) async {
+                ).then((onValue) async {  //获取自习室数据
                   if (onValue != null) {
                     teachAreaValue = onValue;
                     w.wait = true;
-                    setState(() {
+                    setState(() { //更新等待图标
                     });
                     classroomDates = await getClassroomData(campus + teachAreaValue, time,w);
                   }
-                  setState(() {
+                  setState(() { //更新获取后的数据
                   });
                 });
               }),
@@ -252,17 +250,22 @@ class ClassroomState extends State<Classroom> {
   }
 
   void _getTime(BuildContext buildContext,Wait wait) async {
-    w.wait = true;
     DateTime dateTime = await showDatePicker(context: buildContext,
         initialDate: time,
         firstDate: new DateTime(DateTime.now().year, DateTime.now().month),
-        lastDate: DateTime(DateTime.now().year + 1,2));
+        lastDate: DateTime(DateTime.now().year + 1,1));
     if (dateTime != null) {
-      classroomDates = await getClassroomData(campus + teachAreaValue, dateTime,w);
+      wait.wait = true;
       setState(() {
         time = dateTime;
       });
     }
+    if (dateTime != null && areaValue.length > 0) {
+      classroomDates = await getClassroomData(campusValueBack + teachAreaValue, dateTime,w);
+    }
+    setState(() {
+      wait.wait = false;
+    });
   }
 }
 
