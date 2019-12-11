@@ -84,6 +84,9 @@ class Homepage extends StatelessWidget {
                         Expanded(
                           child: TextField(
                             //输入学号
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
                             controller: _snoTextEditingController,
                             textInputAction: TextInputAction.done,
                             decoration: InputDecoration(
@@ -112,8 +115,10 @@ class Homepage extends StatelessWidget {
 //                      ),
 //                    ),
                         Expanded(
-                            child: TextField(
-                              //输入密码
+                            child: TextField(//输入密码
+                              style: TextStyle(
+                                color: Colors.white,
+                              ),
                               controller: _passwordTextEditingController,
                               obscureText: true,
                               textInputAction: TextInputAction.done,
@@ -145,6 +150,7 @@ class Homepage extends StatelessWidget {
                               _snoTextEditingController.text.length != 0) {
                             sno = _snoTextEditingController.text;
                             password = _passwordTextEditingController.text;
+//                            login(sno, password);
                             if (sno == "201900301053" && password == "kmh") {
                               isUser = true;
                             }

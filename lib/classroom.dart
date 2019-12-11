@@ -10,6 +10,7 @@ void main (){
       "/classroom":(BuildContext context) =>Classroom()
     },
     title: "自习室",
+    checkerboardRasterCacheImages: true,
     home: Classroom(),
   ));
 }
@@ -305,7 +306,7 @@ Table getTable(DateTime t) { //构建表格
     ),
     defaultVerticalAlignment: TableCellVerticalAlignment.middle,
     columnWidths: <int, TableColumnWidth>{
-      0: FixedColumnWidth(64),
+      0: FixedColumnWidth(70),
     },
   );
 }
@@ -342,8 +343,8 @@ Center  tableText(String str) { //适用于表格的Text//忘记改成类了不�
       child:Text(
         str,
         style: TextStyle(
-            fontSize: 15,
-            color: Colors.black
+            fontSize: 16,
+            color: str=="上课" ? Colors.blue : Colors.red,
         ),
       )
   );
