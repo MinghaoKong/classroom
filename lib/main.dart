@@ -2,6 +2,8 @@
 import 'package:classroom/classroom.dart';
 import 'package:flutter/material.dart';
 
+import 'login.dart';
+
 BuildContext buildContext;
 
 void main() {
@@ -63,7 +65,7 @@ class Homepage extends StatelessWidget {
             title: Text("山东大学统一身份认证"),
           ),
           body: Container(
-            decoration: BoxDecoration(//这些代码可能会导致程序编写者的非自然性死亡，建议不要取消注释
+            decoration: BoxDecoration(
               image: DecorationImage(
                   image: AssetImage('images/bgleave.png'),
                 fit: BoxFit.cover
@@ -142,7 +144,7 @@ class Homepage extends StatelessWidget {
                       child: MaterialButton(
                         //登陆按钮
                         textTheme: ButtonTextTheme.normal,
-                        onPressed: () {
+                        onPressed: () async {
                           //从服务器获取比对结果，判断是否登陆成功
                           bool isUser = false;
 //                        print(_snoTextEditingController.text);
@@ -150,10 +152,11 @@ class Homepage extends StatelessWidget {
                               _snoTextEditingController.text.length != 0) {
                             sno = _snoTextEditingController.text;
                             password = _passwordTextEditingController.text;
-//                            login(sno, password);
-                            if (sno == "201900301053" && password == "kmh") {
-                              isUser = true;
-                            }
+                            print(login(sno, password));
+//                            if (sno == "201900301053" && password == "kmh") {
+//                              isUser = true;
+//                            }
+                            isUser = await login(sno, password);
                             if (isUser) {
                               Navigator.pushAndRemoveUntil(context,
                                   MaterialPageRoute(builder: (context) {
